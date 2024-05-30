@@ -60,8 +60,8 @@ export const postDb = async (name, email, phone, profile) => {
     console.log('🚀 - data saved to the database', result);
   };
 
-  // Export a function we will use to DELETE to the database.
-  export const deleteDb = async (id) => {
+// Export a function we will use to DELETE to the database.
+export const deleteDb = async (id) => {
 
     // Create a connection to the database and specify the version we want to use
     const contactDb = await openDB('contact_db', 1);
@@ -79,5 +79,21 @@ export const postDb = async (name, email, phone, profile) => {
     const result = await request;
     console.log('result.value', result);
     return result?.value;
-  }
+  };
   
+// EXPORTED EDIT function
+export const editDb = async (id, name, email, phone, profile) => {
+  console.log('PUT to the database');
+
+  const contactDb = await openDB('contact_db', 1);
+
+  const tx = contactDb.transaction('contacts', 'readwrite');
+
+  const store = tx.objectStore('contacts');
+
+  const request = store.put({ id: id, name: name, email: email, phone: phone, profile: profile });
+  const result = await request;
+  console.log('🚀 - data saved to the database', result);
+};
+
+

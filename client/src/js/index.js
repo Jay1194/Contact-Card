@@ -4,6 +4,8 @@ import { initdb, getDb, postDb, deleteDb, editDb } from './database';
 import { fetchCards } from './cards'
 import { toggleForm, clearForm } from './form.js';
 
+
+
 // import css files
 import "../css/index.css";
 
@@ -14,6 +16,25 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Bear from '../images/bear.png';
 import Dog from '../images/dog.png';
 import Logo from '../images/reddit.png';
+
+// new variable that will reference the id of the newly created Install button
+const installBtn = document.getElementById('installBtn');
+// checks beforeinstallprompt and sets the visibility of the button to “visible”
+window.addEventListener('beforeinstallprompt', (event) => {
+  event.preventDefault();
+  installBtn.style.visibility = 'visible';
+  // event listener attached to the installBtn variable that calls event.prompt(), sets the button as disabled if ”true”, and sets the text of the button to “Installed!”
+  installBtn.addEventListener('click', () => {
+    event.prompt();
+    installBtn.setAttribute('disabled', true);
+    installBtn.textContent = 'Installed!';
+    });
+  });
+
+  // check whether or not the app has been installed
+  window.addEventListener('appinstalled', (event) => {
+    console.log('👍', 'appinstalled', event);
+  });
 
 // Register the service worker
 if ('serviceWorker' in navigator) {
